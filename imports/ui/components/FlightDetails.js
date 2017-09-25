@@ -14,8 +14,9 @@ export default class FlightDetails extends Component {
     return moment(str).format("DDMMMYYYY");
   };
 
-  getAirportName(list, str) {
-    let res = _.findWhere(list, {
+  getAirportName(str) {
+    let airports = this.props.airports || [];
+    let res = _.findWhere(airports, {
       fs: str
     })
     return res.name;
@@ -29,7 +30,7 @@ export default class FlightDetails extends Component {
         <div>
           {!scheduledFlights.length ? 
             <div className="well" >
-              <b>There is no data corresponding to this query. Please change the flight number or data and try again</b>
+              <b>There is no data to display. Please change the flight number or data and try again</b>
             </div>
           :null}
           {
@@ -44,13 +45,13 @@ export default class FlightDetails extends Component {
                   <h5>Departure</h5>
                   <p>Date: { this.getDate(flight.departureTime) }</p>
                   <p>Airport code: {flight.departureAirportFsCode}</p>
-                  <p>Airport name: { this.getAirportName(this.props.airports, flight.departureAirportFsCode)}</p>
+                  <p>Airport name: { this.getAirportName(flight.departureAirportFsCode)}</p>
                   <p>Time: { this.getTime(flight.departureTime) }</p>
 
                   <h5>Arrival</h5>
                   <p>Date: { this.getDate(flight.arrivalTime) }</p>
                   <p>Airport code: {flight.arrivalAirportFsCode}</p>
-                  <p>Airport name: { this.getAirportName(this.props.airports, flight.arrivalAirportFsCode)}</p>
+                  <p>Airport name: { this.getAirportName(flight.arrivalAirportFsCode)}</p>
                   <p>Time: { this.getTime(flight.arrivalTime) }</p>
                 </div>
               )

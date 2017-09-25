@@ -59,8 +59,6 @@ export default class Inputs extends Component {
       
   render() {
     const {apiResponse} = this.state;
-
-    console.log(apiResponse);
     
     return(
       <div className="form-default">
