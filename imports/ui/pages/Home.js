@@ -5,13 +5,15 @@ import datepicker from 'jquery-datepicker';
 import moment from 'moment';
 
 import Logger from '/imports/modules/logger';
-import FlightDetails from '/imports/ui/components/FlightDetails.js';
+import FlightDetails from '/imports/ui/components/FlightDetails';
+import Loading from '/imports/ui/components/Loading';
 
 export default class Inputs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        apiResponse: null
+        apiResponse: null,
+        loading:false
     };
   }
 
@@ -43,7 +45,11 @@ export default class Inputs extends Component {
       year
     }
 
+
+    this.setState({loading:true});
     Meteor.call('flightstats.getFlightInfo', data, (error, result) => {
+      this.setState({loading:false});
+
       if (error){
         console.log(error);
         Logger.error(error.reason);
@@ -56,10 +62,12 @@ export default class Inputs extends Component {
       }
     });
   };
+
+
       
   render() {
-    const {apiResponse} = this.state;
-    
+    const {apiResponse,loading} = this.state;
+
     return(
       <div className="form-default">
         <h3>Test assignment</h3>
@@ -72,12 +80,17 @@ export default class Inputs extends Component {
           </div>
           <button className="btn-block btn-primary" style={{marginBottom:'20px'}} type="submit">Get info</button>
         </form>
-        {apiResponse ? 
-          <FlightDetails 
-            scheduledFlights={apiResponse.scheduledFlights} 
-            airports={apiResponse.appendix.airports}
-          /> 
-        : null }
+        {
+          loading ? 
+            <Loading/>
+          :
+            apiResponse ? 
+              <FlightDetails 
+                scheduledFlights={apiResponse.scheduledFlights} 
+                airports={apiResponse.appendix.airports}
+              /> 
+            : null 
+        }
       </div>
     )
   }
