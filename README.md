@@ -1,3 +1,11 @@
+### Tech stack
+
+* Meteor
+* React
+* MongoDB
+* FlowRouter
+
+### Overview
 
 1. You are to develop a user interface to collect from a keyboard 2 data elements: a flight date and a flight number.
 
